@@ -1,6 +1,9 @@
 import { Region, DataPoint, BoundaryType, BoundaryResult } from "../types";
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "https://api.mappin.app";
+// On web the client is served from the same origin as the API, so a relative
+// "/api" base resolves correctly with no env needed. Native builds must set
+// EXPO_PUBLIC_API_URL to an absolute URL ending in /api (see .env.example).
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "/api";
 
 export async function fetchRegions(): Promise<Region[]> {
   const res = await fetch(`${BASE_URL}/regions`);

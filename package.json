@@ -6,7 +6,11 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build": "npm run build:web && npm run build:server",
+    "build:web": "expo export --platform web --output-dir web-build",
+    "build:server": "npm --prefix server install && npm --prefix server run build",
+    "serve": "node server/dist/index.js"
   },
   "dependencies": {
     "@expo/metro-runtime": "^55.0.7",

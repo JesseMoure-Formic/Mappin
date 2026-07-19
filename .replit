@@ -1,0 +1,26 @@
+# Replit configuration for Mappin: one Express process serves the Expo web
+# client (at /) and the API (at /api) on a single port/URL.
+
+# Workspace "Run" button: build the web client + server, then serve both.
+run = "npm run build && npm run serve"
+entrypoint = "server/src/index.ts"
+
+[nix]
+channel = "stable-24_11"
+
+[env]
+NODE_ENV = "production"
+
+# Dev VM: map the app's internal port to the public web port.
+[[ports]]
+localPort = 3000
+externalPort = 80
+
+# Publish target. Autoscale is cheapest but has an EPHEMERAL, non-shared
+# filesystem, so the SQLite database at server/data/ is wiped on every
+# redeploy/scale event. For persistent data choose a Reserved VM deployment
+# in the Replit UI instead (single instance, persistent disk).
+[deployment]
+build = ["sh", "-c", "npm install && npm run build"]
+run = ["sh", "-c", "npm run serve"]
+deploymentTarget = "autoscale"
